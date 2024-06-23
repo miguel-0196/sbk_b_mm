@@ -1,0 +1,1 @@
+pyinstaller --onefile -c sbk_mm.py
