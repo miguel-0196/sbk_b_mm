@@ -1,0 +1,1 @@
+mm.exe <logs-dir> // Prints addr list and no identitie files
