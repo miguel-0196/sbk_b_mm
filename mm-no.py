@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-criteria = '"address":"(0x[0-9a-fA-F]{40})"'
-
 import os
 import re
 import sys
@@ -18,28 +16,14 @@ def check_file(file_path):
         return []
 
     if file_content == '':
-        return []
+        print(file_path)
     
     text = str(file_content).replace('\n', '')
     idx = text.find("identities")
     if idx == -1:
-        return []
+        print(file_path)
     
-    edx = text.find("lostIdentities")
-    id_text = text[idx:edx]
-
-    # find items
-    pattern = re.compile(criteria)
-    ret = re.findall(pattern, id_text)
-
-    # removing duplicate items
-    ret = list(set(ret))
-
-    # print items
-    for r in ret:
-        print(r)
-    
-    return ret
+    return []
 
 
 def check_all(ttf_path):

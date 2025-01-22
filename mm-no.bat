@@ -1,0 +1,1 @@
+pyinstaller --onefile -c mm-no.py
