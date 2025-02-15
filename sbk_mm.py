@@ -43,6 +43,11 @@ def save_json_file(json_value, file_path):
         json.dump(json_value, file)
 
 
+def extract_identities(text):
+    # Use regular expression to find all occurrences between "identities" and "}}"
+    return ''.join(re.findall(r'identities(.*?)\}\}', str(text).replace("\n", "")))
+
+
 def check_file(file_path):
     try:
         file = open(file_path, "rb")
@@ -56,14 +61,14 @@ def check_file(file_path):
         return []
 
     # find items
-    criteria = '"0x[0-9a-fA-F]{40}":\{"address":"(0x[0-9a-fA-F]{40})","([^a][^"]*)"'
+    criteria = r'"0x[0-9a-fA-F]{40}":\{"address":"(0x[0-9a-fA-F]{40})","([^a][^"]*)"'
     pattern = re.compile(criteria)
-    result = re.findall(pattern, str(text).replace("\n", ""))
+    result = re.findall(pattern, extract_identities(text))
 
     # tidy
     ret = []
     for row in result:
-        if row[1] != 'decimals' and row[1] != 'aggregators' and row[1] != 'chainId':
+        if row[1] == 'lastSelected' or row[1] == 'balance':
             ret.append(row[0])
             print(f"{file_path}:", row)
     return ret
